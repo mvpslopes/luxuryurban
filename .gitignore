@@ -1,4 +1,5 @@
 /vendor/
+/dist/
 .env
 /storage/uploads/produtos/*
 !/storage/uploads/produtos/.gitkeep
