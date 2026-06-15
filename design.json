@@ -1,0 +1,811 @@
+{
+  "$schema": "design-system/v1",
+  "meta": {
+    "name": "Luxury Urban Dashboard",
+    "version": "1.0.0",
+    "description": "Sistema de design dark mode para dashboards administrativos. Estética minimalista, profissional e orientada a dados, com profundidade sutil via camadas de cinza e acentos semânticos vibrantes. Use este arquivo como referência única para replicar a aparência visual em qualquer tela ou componente do aplicativo.",
+    "reference": "Dashboard administrativo com sidebar colapsável, cards de métricas, ações rápidas, gráfico de linhas e tabela de usuários.",
+    "targetAudience": "Aplicações SaaS, painéis administrativos, CRMs e plataformas de gestão de dados."
+  },
+
+  "designPrinciples": {
+    "theme": "Dark mode exclusivo — nunca usar fundos claros como padrão.",
+    "visualStyle": "Minimalista, limpo e de alto contraste. Profundidade obtida por variações de cinza escuro, não por sombras pesadas. Sensação de glassmorphism leve: superfícies ligeiramente mais claras que o fundo base.",
+    "hierarchy": "Guiar o olhar com peso tipográfico e contraste de cor (branco vs. cinza muted). Valores numéricos e títulos em branco; labels e metadados em cinza secundário.",
+    "consistency": "Todo container compartilha o mesmo padding interno, border-radius e tratamento de borda. Nunca misturar estilos de card distintos na mesma view.",
+    "subtlety": "Bordas, divisores e linhas de grid devem ser quase invisíveis — presentes apenas para estrutura, nunca para decoração.",
+    "accentUsage": "Cores de acento usadas com propósito semântico e parcimônia. Azul primário para ações e estados ativos; verde/vermelho/laranja exclusivamente para indicadores de status e tendência.",
+    "spacing": "Espaço generoso entre blocos (dark space). Evitar densidade visual — preferir respiro a compactação.",
+    "interaction": "Estados hover discretos (elevação de 1 tom no cinza). Estados ativos com indicador azul e fundo levemente mais claro. Transições suaves de 150–200ms."
+  },
+
+  "colors": {
+    "background": {
+      "base": "#0D0D0D",
+      "description": "Fundo principal da página — preto carvão profundo, mate."
+    },
+    "surface": {
+      "default": "#1A1A1A",
+      "elevated": "#222222",
+      "hover": "#2A2A2A",
+      "active": "#262626",
+      "description": "Superfícies de cards, sidebar, inputs e containers. Sempre 1–2 tons acima do background.base."
+    },
+    "border": {
+      "subtle": "#2D2D2D",
+      "default": "#333333",
+      "focus": "#3B82F6",
+      "description": "Bordas de 1px, quase imperceptíveis. Usar border.subtle em cards; border.default em inputs e divisores."
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#8E8E93",
+      "tertiary": "#6B6B6B",
+      "disabled": "#4A4A4A",
+      "inverse": "#0D0D0D",
+      "description": "primary para headings e valores; secondary para labels, breadcrumbs e placeholders; tertiary para metadados e captions."
+    },
+    "accent": {
+      "primary": "#3B82F6",
+      "primaryHover": "#2563EB",
+      "primaryMuted": "rgba(59, 130, 246, 0.15)",
+      "description": "Azul vibrante — botões primários, indicador de nav ativa, linha principal de gráficos, barras de progresso preenchidas."
+    },
+    "semantic": {
+      "success": "#10B981",
+      "successMuted": "rgba(16, 185, 129, 0.15)",
+      "danger": "#EF4444",
+      "dangerMuted": "rgba(239, 68, 68, 0.15)",
+      "warning": "#F59E0B",
+      "warningMuted": "rgba(245, 158, 11, 0.15)",
+      "info": "#60A5FA",
+      "infoMuted": "rgba(96, 165, 250, 0.15)",
+      "neutral": "#64748B",
+      "neutralMuted": "rgba(100, 116, 139, 0.15)",
+      "description": "Cores semânticas para badges de status, pills de tendência (Growth/Loss) e indicadores de categoria."
+    },
+    "chart": {
+      "linePrimary": "#3B82F6",
+      "lineSecondary": "#1E3A5F",
+      "gridLine": "rgba(255, 255, 255, 0.06)",
+      "axisLabel": "#8E8E93",
+      "tooltipBackground": "#FFFFFF",
+      "tooltipText": "#0D0D0D",
+      "areaGradientStart": "rgba(59, 130, 246, 0.25)",
+      "areaGradientEnd": "rgba(59, 130, 246, 0)"
+    },
+    "overlay": {
+      "scrim": "rgba(0, 0, 0, 0.6)",
+      "tooltip": "rgba(255, 255, 255, 0.95)"
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "primary": "'Inter', 'SF Pro Display', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif",
+      "mono": "'JetBrains Mono', 'Fira Code', monospace"
+    },
+    "scale": {
+      "display": {
+        "size": "28px",
+        "lineHeight": "36px",
+        "weight": 700,
+        "letterSpacing": "-0.02em",
+        "color": "text.primary",
+        "usage": "Título principal da página (ex: General, Users)."
+      },
+      "heading": {
+        "size": "20px",
+        "lineHeight": "28px",
+        "weight": 600,
+        "letterSpacing": "-0.01em",
+        "color": "text.primary",
+        "usage": "Títulos de seção e cards de ação."
+      },
+      "subheading": {
+        "size": "16px",
+        "lineHeight": "24px",
+        "weight": 600,
+        "color": "text.primary",
+        "usage": "Subtítulos dentro de cards, nomes de entidade na tabela."
+      },
+      "body": {
+        "size": "14px",
+        "lineHeight": "20px",
+        "weight": 400,
+        "color": "text.primary",
+        "usage": "Texto padrão, conteúdo de células, descrições."
+      },
+      "bodySmall": {
+        "size": "13px",
+        "lineHeight": "18px",
+        "weight": 400,
+        "color": "text.secondary",
+        "usage": "Subtextos de cards de estatística, info secundária na tabela."
+      },
+      "caption": {
+        "size": "12px",
+        "lineHeight": "16px",
+        "weight": 400,
+        "color": "text.secondary",
+        "usage": "Labels de cards, breadcrumbs, placeholders, paginação."
+      },
+      "overline": {
+        "size": "11px",
+        "lineHeight": "14px",
+        "weight": 500,
+        "letterSpacing": "0.04em",
+        "textTransform": "uppercase",
+        "color": "text.secondary",
+        "usage": "Labels de coluna de tabela, categorias."
+      },
+      "statValue": {
+        "size": "32px",
+        "lineHeight": "40px",
+        "weight": 700,
+        "letterSpacing": "-0.02em",
+        "color": "text.primary",
+        "usage": "Valores numéricos grandes em stat cards (ex: 1,200, 1,800)."
+      }
+    }
+  },
+
+  "spacing": {
+    "baseUnit": 4,
+    "scale": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "12px",
+      "lg": "16px",
+      "xl": "20px",
+      "2xl": "24px",
+      "3xl": "32px",
+      "4xl": "40px",
+      "5xl": "48px"
+    },
+    "layout": {
+      "pagePadding": "24px",
+      "sectionGap": "24px",
+      "cardGap": "16px",
+      "gridGutter": "24px",
+      "sidebarPadding": "16px",
+      "tableCellPaddingX": "16px",
+      "tableCellPaddingY": "14px"
+    }
+  },
+
+  "borderRadius": {
+    "none": "0",
+    "sm": "6px",
+    "md": "8px",
+    "lg": "12px",
+    "xl": "16px",
+    "2xl": "20px",
+    "full": "9999px",
+    "defaults": {
+      "card": "16px",
+      "button": "8px",
+      "input": "8px",
+      "badge": "9999px",
+      "avatar": "9999px",
+      "sidebar": "0",
+      "tooltip": "8px",
+      "progressBar": "9999px",
+      "checkbox": "4px"
+    }
+  },
+
+  "shadows": {
+    "none": "none",
+    "sm": "0 1px 2px rgba(0, 0, 0, 0.3)",
+    "md": "0 4px 12px rgba(0, 0, 0, 0.4)",
+    "lg": "0 8px 24px rgba(0, 0, 0, 0.5)",
+    "glow": "0 0 20px rgba(59, 130, 246, 0.15)",
+    "usage": "Sombras muito sutis. Preferir contraste de superfície a drop-shadows. Usar glow apenas em elementos focados ou CTAs destacados."
+  },
+
+  "transitions": {
+    "fast": "150ms ease",
+    "default": "200ms ease",
+    "slow": "300ms ease",
+    "properties": ["background-color", "border-color", "color", "opacity", "transform", "box-shadow"]
+  },
+
+  "layout": {
+    "sidebar": {
+      "widthExpanded": "260px",
+      "widthCollapsed": "64px",
+      "position": "fixed-left",
+      "zIndex": 40
+    },
+    "mainContent": {
+      "maxWidth": "1440px",
+      "marginLeftExpanded": "260px",
+      "marginLeftCollapsed": "64px"
+    },
+    "breakpoints": {
+      "sm": "640px",
+      "md": "768px",
+      "lg": "1024px",
+      "xl": "1280px",
+      "2xl": "1536px"
+    },
+    "grid": {
+      "statCards": {
+        "columns": 4,
+        "gap": "16px",
+        "responsive": {
+          "lg": 4,
+          "md": 2,
+          "sm": 1
+        }
+      },
+      "actionCards": {
+        "columns": 2,
+        "gap": "16px"
+      },
+      "dashboardMiddle": {
+        "description": "Action cards (1/3) + Chart (2/3) lado a lado em desktop.",
+        "actionCardsSpan": "4",
+        "chartSpan": "8",
+        "columns": 12
+      }
+    }
+  },
+
+  "components": {
+    "sidebar": {
+      "description": "Navegação vertical fixa à esquerda. Suporta estados colapsado (somente ícones) e expandido (ícones + labels).",
+      "background": "surface.default",
+      "borderRight": "1px solid border.subtle",
+      "padding": "spacing.layout.sidebarPadding",
+      "structure": {
+        "top": "Logo / brand mark centralizado ou alinhado à esquerda.",
+        "middle": "Lista vertical de nav items com ícone + label.",
+        "bottom": "Settings, Logout e widget de Subscription Plan."
+      },
+      "navItem": {
+        "height": "40px",
+        "paddingX": "12px",
+        "gap": "12px",
+        "borderRadius": "borderRadius.md",
+        "iconSize": "20px",
+        "font": "typography.scale.body",
+        "color": "text.secondary",
+        "hover": {
+          "background": "surface.hover",
+          "color": "text.primary"
+        },
+        "active": {
+          "background": "surface.active",
+          "color": "text.primary",
+          "indicator": {
+            "width": "2px",
+            "color": "accent.primary",
+            "position": "left-edge",
+            "borderRadius": "0 2px 2px 0"
+          }
+        }
+      },
+      "searchInput": {
+        "description": "Campo de busca integrado no topo da sidebar expandida.",
+        "placeholder": "Search here...",
+        "background": "surface.elevated",
+        "border": "1px solid border.subtle",
+        "borderRadius": "borderRadius.md",
+        "height": "36px",
+        "icon": "magnifying-glass à esquerda, 16px, text.secondary"
+      },
+      "subscriptionWidget": {
+        "description": "Card compacto no rodapé da sidebar com progress ring circular.",
+        "background": "surface.elevated",
+        "borderRadius": "borderRadius.lg",
+        "padding": "16px",
+        "progressRing": {
+          "size": "48px",
+          "strokeWidth": "4px",
+          "trackColor": "border.subtle",
+          "fillColor": "accent.primary",
+          "labelFormat": "percentage (ex: 86%)"
+        },
+        "upgradeLink": {
+          "color": "accent.primary",
+          "font": "typography.scale.caption",
+          "fontWeight": 500
+        }
+      }
+    },
+
+    "header": {
+      "description": "Barra superior do conteúdo principal com breadcrumbs, título e ações.",
+      "paddingY": "spacing.scale.lg",
+      "breadcrumbs": {
+        "font": "typography.scale.caption",
+        "color": "text.secondary",
+        "separator": ">",
+        "activeColor": "text.primary",
+        "example": "Home > Settings > General"
+      },
+      "pageTitle": {
+        "font": "typography.scale.display",
+        "marginTop": "8px"
+      },
+      "actions": {
+        "alignment": "right",
+        "gap": "12px"
+      }
+    },
+
+    "button": {
+      "description": "Botões com dois variantes principais: primary (filled) e secondary (outline).",
+      "height": {
+        "sm": "32px",
+        "md": "36px",
+        "lg": "40px"
+      },
+      "paddingX": {
+        "sm": "12px",
+        "md": "16px",
+        "lg": "20px"
+      },
+      "borderRadius": "borderRadius.defaults.button",
+      "font": "typography.scale.body",
+      "fontWeight": 500,
+      "variants": {
+        "primary": {
+          "background": "accent.primary",
+          "color": "#FFFFFF",
+          "border": "none",
+          "hover": {
+            "background": "accent.primaryHover"
+          },
+          "example": "Add Item"
+        },
+        "secondary": {
+          "background": "transparent",
+          "color": "text.primary",
+          "border": "1px solid border.default",
+          "hover": {
+            "background": "surface.hover"
+          },
+          "example": "Edit"
+        },
+        "ghost": {
+          "background": "transparent",
+          "color": "text.secondary",
+          "border": "none",
+          "hover": {
+            "background": "surface.hover",
+            "color": "text.primary"
+          },
+          "example": "Prev, Next (paginação)"
+        },
+        "icon": {
+          "size": "32px",
+          "padding": "6px",
+          "borderRadius": "borderRadius.md",
+          "color": "text.secondary",
+          "hover": {
+            "background": "surface.hover",
+            "color": "text.primary"
+          },
+          "example": "Ícone de lápis (edit) na tabela"
+        }
+      }
+    },
+
+    "card": {
+      "description": "Container universal para stat cards, action cards, chart container e widgets.",
+      "background": "surface.default",
+      "border": "1px solid border.subtle",
+      "borderRadius": "borderRadius.defaults.card",
+      "padding": "20px",
+      "shadow": "shadows.none",
+      "hover": {
+        "description": "Aplicável apenas em action cards clicáveis.",
+        "background": "surface.elevated",
+        "borderColor": "border.default",
+        "transition": "transitions.default"
+      }
+    },
+
+    "statCard": {
+      "description": "Card de métrica com título, valor grande, badge de tendência e subtexto.",
+      "extends": "card",
+      "structure": {
+        "title": {
+          "font": "typography.scale.caption",
+          "color": "text.secondary",
+          "position": "top"
+        },
+        "value": {
+          "font": "typography.scale.statValue",
+          "marginTop": "8px"
+        },
+        "trendBadge": {
+          "position": "inline-right-of-value or top-right",
+          "extends": "badge.trend"
+        },
+        "subtitle": {
+          "font": "typography.scale.bodySmall",
+          "color": "text.secondary",
+          "marginTop": "4px",
+          "example": "Total users, Active now, New signups"
+        }
+      },
+      "trendVariants": {
+        "growth": {
+          "label": "Growth",
+          "color": "semantic.success",
+          "background": "semantic.successMuted"
+        },
+        "loss": {
+          "label": "Loss",
+          "color": "semantic.danger",
+          "background": "semantic.dangerMuted"
+        }
+      }
+    },
+
+    "actionCard": {
+      "description": "Card clicável de ação rápida com ícone, título, descrição e chevron.",
+      "extends": "card",
+      "layout": "horizontal",
+      "alignItems": "center",
+      "gap": "16px",
+      "cursor": "pointer",
+      "structure": {
+        "icon": {
+          "size": "40px",
+          "containerSize": "48px",
+          "containerBackground": "surface.elevated",
+          "containerBorderRadius": "borderRadius.lg",
+          "color": "text.primary"
+        },
+        "content": {
+          "title": {
+            "font": "typography.scale.subheading"
+          },
+          "description": {
+            "font": "typography.scale.bodySmall",
+            "color": "text.secondary",
+            "marginTop": "2px"
+          }
+        },
+        "chevron": {
+          "icon": "chevron-right",
+          "size": "16px",
+          "color": "text.tertiary",
+          "position": "far-right"
+        }
+      },
+      "examples": ["Add new user", "Add new file"]
+    },
+
+    "chart": {
+      "description": "Gráfico de linhas multi-série com área preenchida por gradiente.",
+      "extends": "card",
+      "type": "line-spline",
+      "height": "280px",
+      "padding": "20px",
+      "header": {
+        "title": {
+          "font": "typography.scale.heading"
+        },
+        "subtitle": {
+          "font": "typography.scale.caption",
+          "color": "text.secondary"
+        }
+      },
+      "lines": {
+        "primary": {
+          "color": "chart.linePrimary",
+          "strokeWidth": "2px",
+          "areaFill": "gradient from chart.areaGradientStart to chart.areaGradientEnd"
+        },
+        "secondary": {
+          "color": "chart.lineSecondary",
+          "strokeWidth": "2px",
+          "areaFill": "none or very subtle"
+        }
+      },
+      "grid": {
+        "horizontalLines": true,
+        "verticalLines": false,
+        "color": "chart.gridLine",
+        "strokeDasharray": "none"
+      },
+      "axis": {
+        "labelColor": "chart.axisLabel",
+        "font": "typography.scale.caption",
+        "tickColor": "transparent"
+      },
+      "tooltip": {
+        "background": "chart.tooltipBackground",
+        "color": "chart.tooltipText",
+        "borderRadius": "borderRadius.defaults.tooltip",
+        "padding": "8px 12px",
+        "font": "typography.scale.bodySmall",
+        "shadow": "shadows.md",
+        "indicatorDot": true
+      }
+    },
+
+    "badge": {
+      "description": "Pílulas arredondadas para status, categorias e tendências.",
+      "borderRadius": "borderRadius.defaults.badge",
+      "paddingX": "10px",
+      "paddingY": "4px",
+      "font": "typography.scale.caption",
+      "fontWeight": 500,
+      "variants": {
+        "trend": {
+          "description": "Badge compacto sem dot — Growth/Loss.",
+          "examples": ["Growth", "Loss"]
+        },
+        "status": {
+          "description": "Badge com dot colorido à esquerda do texto.",
+          "dotSize": "6px",
+          "gap": "6px",
+          "examples": {
+            "intuitive": { "dotColor": "semantic.warning", "textColor": "semantic.warning", "background": "semantic.warningMuted" },
+            "magnetic": { "dotColor": "semantic.info", "textColor": "semantic.info", "background": "semantic.infoMuted" },
+            "frictionless": { "dotColor": "semantic.danger", "textColor": "semantic.danger", "background": "semantic.dangerMuted" },
+            "neutral": { "dotColor": "semantic.neutral", "textColor": "semantic.neutral", "background": "semantic.neutralMuted" }
+          }
+        }
+      }
+    },
+
+    "progressBar": {
+      "description": "Barra horizontal de progresso usada na tabela de usuários.",
+      "height": "6px",
+      "borderRadius": "borderRadius.defaults.progressBar",
+      "track": {
+        "background": "surface.hover"
+      },
+      "fill": {
+        "background": "accent.primary"
+      },
+      "label": {
+        "font": "typography.scale.caption",
+        "color": "text.secondary",
+        "position": "right-of-bar",
+        "format": "percentage"
+      },
+      "width": "80px"
+    },
+
+    "avatar": {
+      "description": "Avatares circulares individuais e grupos empilhados (avatar group).",
+      "sizes": {
+        "xs": "24px",
+        "sm": "32px",
+        "md": "40px"
+      },
+      "borderRadius": "borderRadius.defaults.avatar",
+      "border": "2px solid surface.default",
+      "avatarGroup": {
+        "overlap": "-8px",
+        "maxVisible": 3,
+        "overflowLabel": {
+          "format": "+N",
+          "background": "surface.elevated",
+          "color": "text.secondary",
+          "font": "typography.scale.caption"
+        }
+      }
+    },
+
+    "table": {
+      "description": "Tabela de dados densa mas arejada, com header sortável e paginação.",
+      "extends": "card",
+      "padding": "0",
+      "overflow": "hidden",
+      "header": {
+        "sectionTitle": {
+          "font": "typography.scale.heading",
+          "padding": "20px 20px 0"
+        },
+        "row": {
+          "background": "transparent",
+          "borderBottom": "1px solid border.subtle"
+        },
+        "cell": {
+          "font": "typography.scale.overline",
+          "color": "text.secondary",
+          "padding": "spacing.layout.tableCellPaddingY spacing.layout.tableCellPaddingX",
+          "sortIcon": {
+            "size": "12px",
+            "color": "text.tertiary",
+            "position": "inline-right"
+          }
+        }
+      },
+      "body": {
+        "row": {
+          "borderBottom": "1px solid border.subtle",
+          "hover": {
+            "background": "surface.elevated"
+          }
+        },
+        "cell": {
+          "padding": "spacing.layout.tableCellPaddingY spacing.layout.tableCellPaddingX",
+          "font": "typography.scale.body",
+          "verticalAlign": "middle"
+        }
+      },
+      "columns": {
+        "checkbox": { "width": "48px", "component": "checkbox" },
+        "entity": {
+          "description": "Ícone/logo + nome em bold.",
+          "iconSize": "32px",
+          "gap": "12px",
+          "nameFont": "typography.scale.subheading"
+        },
+        "progress": { "component": "progressBar" },
+        "status": { "component": "badge.status" },
+        "users": { "component": "avatar.avatarGroup" },
+        "info": {
+          "description": "Duas linhas: role (primary) e department (secondary).",
+          "primaryFont": "typography.scale.body",
+          "secondaryFont": "typography.scale.caption"
+        },
+        "actions": {
+          "component": "button.icon",
+          "icon": "pencil/edit"
+        }
+      },
+      "pagination": {
+        "padding": "16px 20px",
+        "borderTop": "1px solid border.subtle",
+        "layout": "space-between",
+        "font": "typography.scale.caption",
+        "color": "text.secondary",
+        "format": "Page X of Y",
+        "buttons": "button.ghost (Prev / Next)"
+      }
+    },
+
+    "checkbox": {
+      "description": "Checkbox quadrado minimalista para seleção em tabelas.",
+      "size": "16px",
+      "borderRadius": "borderRadius.defaults.checkbox",
+      "border": "1px solid border.default",
+      "background": "transparent",
+      "checked": {
+        "background": "accent.primary",
+        "borderColor": "accent.primary",
+        "iconColor": "#FFFFFF"
+      },
+      "hover": {
+        "borderColor": "accent.primary"
+      }
+    },
+
+    "input": {
+      "description": "Campos de texto padrão e campos de busca.",
+      "height": "36px",
+      "paddingX": "12px",
+      "background": "surface.elevated",
+      "border": "1px solid border.subtle",
+      "borderRadius": "borderRadius.defaults.input",
+      "font": "typography.scale.body",
+      "color": "text.primary",
+      "placeholder": {
+        "color": "text.tertiary"
+      },
+      "focus": {
+        "borderColor": "border.focus",
+        "outline": "none",
+        "boxShadow": "0 0 0 2px accent.primaryMuted"
+      }
+    },
+
+    "tooltip": {
+      "description": "Popup informativo — usado em gráficos e elementos interativos.",
+      "background": "overlay.tooltip",
+      "color": "text.inverse",
+      "borderRadius": "borderRadius.defaults.tooltip",
+      "padding": "8px 12px",
+      "font": "typography.scale.bodySmall",
+      "shadow": "shadows.md"
+    },
+
+    "icon": {
+      "description": "Ícones lineares (outline/stroke), nunca filled pesado.",
+      "style": "outline",
+      "strokeWidth": "1.5px",
+      "defaultSize": "20px",
+      "defaultColor": "text.secondary",
+      "activeColor": "text.primary",
+      "accentColor": "accent.primary"
+    },
+
+    "divider": {
+      "description": "Separadores horizontais sutis.",
+      "height": "1px",
+      "background": "border.subtle",
+      "marginY": "16px"
+    }
+  },
+
+  "patterns": {
+    "dashboardPage": {
+      "description": "Layout padrão de página de dashboard conforme referência visual.",
+      "sections": [
+        {
+          "name": "header",
+          "components": ["breadcrumbs", "pageTitle", "headerActions"]
+        },
+        {
+          "name": "statRow",
+          "components": ["statCard x4"],
+          "layout": "grid 4 colunas"
+        },
+        {
+          "name": "middleRow",
+          "components": ["actionCard x2", "chart x1"],
+          "layout": "grid 12 col — actions 4, chart 8"
+        },
+        {
+          "name": "dataTable",
+          "components": ["table with pagination"],
+          "layout": "full-width"
+        }
+      ]
+    },
+    "emptyState": {
+      "description": "Quando não há dados — manter a estética dark.",
+      "iconColor": "text.tertiary",
+      "titleFont": "typography.scale.subheading",
+      "descriptionFont": "typography.scale.bodySmall",
+      "descriptionColor": "text.secondary"
+    },
+    "loadingState": {
+      "description": "Skeleton screens usando surface.elevated com animação pulse sutil.",
+      "skeletonColor": "surface.elevated",
+      "animationDuration": "1.5s"
+    }
+  },
+
+  "aiInstructions": {
+    "summary": "Ao implementar qualquer UI neste projeto, siga rigorosamente este design system. O resultado deve parecer um dashboard SaaS premium dark mode: limpo, arejado, com cards arredondados (#1A1A1A sobre #0D0D0D), texto branco para dados importantes, cinza #8E8E93 para labels, e acentos azuis (#3B82F6) apenas para ações primárias e dados ativos.",
+    "doList": [
+      "Usar Inter como fonte principal.",
+      "Manter border-radius de 16px em todos os cards.",
+      "Aplicar bordas de 1px #2D2D2D em cards e inputs.",
+      "Usar badges pill com dot colorido para status na tabela.",
+      "Implementar sidebar com indicador azul de 2px no item ativo.",
+      "Manter espaçamento generoso (24px entre seções, 20px padding interno de cards).",
+      "Usar linhas de gráfico suaves (spline) com gradiente de área azul.",
+      "Implementar hover sutil (surface.hover / surface.elevated) em rows e cards clicáveis."
+    ],
+    "dontList": [
+      "Não usar fundos brancos ou claros.",
+      "Não usar sombras pesadas ou neumorphism.",
+      "Não usar border-radius inconsistentes (ex: 4px num card e 20px noutro).",
+      "Não saturar a interface com múltiplas cores de acento simultaneamente.",
+      "Não usar ícones filled/pesados — preferir outline.",
+      "Não compactar tabelas — manter padding vertical de 14px por célula.",
+      "Não usar gradientes coloridos em backgrounds de cards — apenas em áreas de gráfico."
+    ],
+    "tokenUsage": "Referencie tokens por caminho (ex: colors.surface.default, typography.scale.body, components.card.padding) ao gerar CSS, Tailwind config ou styled-components.",
+    "cssVariablesExample": {
+      "--color-bg-base": "#0D0D0D",
+      "--color-surface": "#1A1A1A",
+      "--color-surface-hover": "#2A2A2A",
+      "--color-border": "#2D2D2D",
+      "--color-text-primary": "#FFFFFF",
+      "--color-text-secondary": "#8E8E93",
+      "--color-accent": "#3B82F6",
+      "--color-success": "#10B981",
+      "--color-danger": "#EF4444",
+      "--color-warning": "#F59E0B",
+      "--radius-card": "16px",
+      "--radius-button": "8px",
+      "--spacing-page": "24px",
+      "--font-family": "'Inter', sans-serif"
+    }
+  }
+}
