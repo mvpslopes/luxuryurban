@@ -12,7 +12,8 @@
             "App\\": "app/"
         },
         "files": [
-            "app/Helpers/functions.php"
+            "app/Helpers/functions.php",
+            "app/Helpers/icons.php"
         ]
     }
 }

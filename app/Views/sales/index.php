@@ -1,34 +1,71 @@
 <?php
-$title = 'Vendas';
-$headerAction = \App\Core\Auth::can('sales.create') ? '<a href="' . url('/vendas/nova') . '" class="btn btn-primary">Nova venda</a>' : '';
+$title = 'Orders';
+
+$headerAction = '';
+$headerAction .= '<a href="' . url('/dashboard') . '" class="btn btn-ghost btn-sm">Order Statistics</a> ';
+$headerAction .= '<a href="' . url('/clientes/novo') . '" class="btn btn-primary">New Customer</a>';
 ?>
-<div class="card mb-3">
-    <form method="GET" class="filter-bar">
-        <select name="status" class="input">
-            <option value="">Todos status</option>
-            <option value="concluida" <?= $status === 'concluida' ? 'selected' : '' ?>>Concluída</option>
-            <option value="pendente_aprovacao" <?= $status === 'pendente_aprovacao' ? 'selected' : '' ?>>Pendente</option>
-            <option value="estornada" <?= $status === 'estornada' ? 'selected' : '' ?>>Estornada</option>
-        </select>
-        <button type="submit" class="btn btn-secondary">Filtrar</button>
-    </form>
-</div>
+
 <div class="card">
-    <table class="table">
-        <thead><tr><th>Recibo</th><th>Cliente</th><th>Vendedor</th><th>Pagamento</th><th>Total</th><th>Status</th><th>Data</th><th></th></tr></thead>
-        <tbody>
-        <?php foreach ($sales as $s): ?>
+    <div class="table-toolbar">
+        <h2>Orders</h2>
+        <div class="toolbar-actions">
+            <a href="<?= url('/dashboard') ?>" class="btn btn-ghost btn-sm">Help</a>
+        </div>
+    </div>
+
+    <form method="GET" class="table-filters">
+        <div class="filters-left">
+            <select name="status" class="input" style="max-width: 280px;">
+                <option value="">All status</option>
+                <option value="concluida" <?= $status === 'concluida' ? 'selected' : '' ?>>Paid</option>
+                <option value="pendente_aprovacao" <?= $status === 'pendente_aprovacao' ? 'selected' : '' ?>>Processing</option>
+                <option value="estornada" <?= $status === 'estornada' ? 'selected' : '' ?>>Unpaid</option>
+            </select>
+        </div>
+        <div class="filters-right">
+            <input type="text" class="input" placeholder="Search..." style="max-width: 240px;">
+            <button type="button" class="btn btn-secondary btn-sm" disabled>Export table</button>
+            <button type="submit" class="btn btn-secondary btn-sm">Apply</button>
+        </div>
+    </form>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
             <tr>
-                <td><?= e($s['receipt_number']) ?></td>
-                <td><?= e($s['customer_name']) ?></td>
-                <td><?= e($s['seller_name']) ?></td>
-                <td><?= e($s['payment_method_name']) ?></td>
-                <td><?= money((float)$s['total']) ?></td>
-                <td><span class="badge <?= sale_status_class($s['status']) ?>"><?= sale_status_label($s['status']) ?></span></td>
-                <td><?= format_date($s['created_at']) ?></td>
-                <td><a href="<?= url("/vendas/{$s['id']}") ?>" class="btn btn-ghost btn-sm">Ver</a></td>
+                <th style="width: 48px;"><input type="checkbox" class="table-checkbox" aria-label="Selecionar tudo"></th>
+                <th>ID</th>
+                <th>Reference</th>
+                <th>New customer?</th>
+                <th>Price</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th style="width: 48px;"></th>
             </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <?php foreach ($sales as $s): ?>
+                <tr>
+                    <td><input type="checkbox" class="table-checkbox" aria-label="Selecionar"></td>
+                    <td><?= e($s['receipt_number']) ?></td>
+                    <td><?= e($s['receipt_number']) ?></td>
+                    <td><?= e($s['new_customer'] ?? 'No') ?></td>
+                    <td><?= money((float) $s['total']) ?></td>
+                    <td><?= e($s['payment_method_name']) ?></td>
+                    <td>
+                        <span class="badge <?= sale_status_class($s['status']) ?>">
+                            <?= sale_status_label($s['status']) ?>
+                        </span>
+                    </td>
+                    <td>
+                        <a href="<?= url("/vendas/{$s['id']}") ?>" class="btn btn-ghost btn-sm btn-icon" aria-label="Options">
+                            <?= icon('more-vertical', 20) ?>
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>

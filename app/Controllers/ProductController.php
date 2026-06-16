@@ -100,7 +100,7 @@ class ProductController extends Controller
         } catch (\Throwable $e) {
             $pdo->rollBack();
             set_flash('error', $e->getMessage());
-            redirect('/produtos/novo');
+            redirect('/produtos');
         }
     }
 

@@ -41,6 +41,25 @@ function url(string $path = ''): string
     return $base . '/' . ltrim($path, '/');
 }
 
+function asset(string $path): string
+{
+    $path = ltrim($path, '/');
+    $candidates = [
+        base_path('public/' . $path),
+        base_path($path),
+    ];
+
+    $version = time();
+    foreach ($candidates as $file) {
+        if (is_file($file)) {
+            $version = filemtime($file);
+            break;
+        }
+    }
+
+    return url($path) . '?v=' . $version;
+}
+
 function redirect(string $path): never
 {
     header('Location: ' . url($path));
@@ -117,9 +136,9 @@ function role_label(string $role): string
 function sale_status_label(string $status): string
 {
     return match ($status) {
-        'concluida' => 'Concluída',
-        'pendente_aprovacao' => 'Pendente aprovação',
-        'estornada' => 'Estornada',
+        'concluida' => 'Paid',
+        'pendente_aprovacao' => 'Processing',
+        'estornada' => 'Unpaid',
         default => $status,
     };
 }

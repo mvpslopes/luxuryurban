@@ -52,7 +52,7 @@ class CustomerController extends Controller
             )->execute($this->customerData());
         } catch (\PDOException) {
             set_flash('error', 'CPF/CNPJ já cadastrado.');
-            redirect('/clientes/novo');
+            redirect('/clientes');
         }
 
         set_flash('success', 'Cliente cadastrado.');
@@ -90,7 +90,7 @@ class CustomerController extends Controller
             )->execute([...array_values($this->customerData()), $id]);
         } catch (\PDOException) {
             set_flash('error', 'CPF/CNPJ já cadastrado.');
-            redirect("/clientes/{$id}/editar");
+            redirect('/clientes');
         }
 
         set_flash('success', 'Cliente atualizado.');

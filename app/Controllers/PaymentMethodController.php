@@ -42,7 +42,7 @@ class PaymentMethodController extends Controller
             ]);
         } catch (\PDOException) {
             set_flash('error', 'Forma de pagamento já existe.');
-            redirect('/formas-pagamento/novo');
+            redirect('/formas-pagamento');
         }
 
         set_flash('success', 'Forma de pagamento criada.');

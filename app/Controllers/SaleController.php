@@ -22,7 +22,17 @@ class SaleController extends Controller
     public function index(): void
     {
         $status = $_GET['status'] ?? '';
-        $sql = 'SELECT s.*, c.name AS customer_name, u.name AS seller_name
+        $sql = 'SELECT s.*,
+                       c.name AS customer_name,
+                       u.name AS seller_name,
+                       (CASE
+                           WHEN (SELECT COUNT(*)
+                                 FROM sales s2
+                                 WHERE s2.customer_id = c.id
+                                   AND s2.id < s.id) = 0
+                           THEN \"Yes\"
+                           ELSE \"No\"
+                        END) AS new_customer
                 FROM sales s
                 JOIN customers c ON c.id = s.customer_id
                 JOIN users u ON u.id = s.seller_id WHERE 1=1';
@@ -38,10 +48,15 @@ class SaleController extends Controller
         }
 
         $sql .= ' ORDER BY s.created_at DESC LIMIT 100';
-        $stmt = Database::connection()->prepare($sql);
-        $stmt->execute($params);
-
-        $this->view('sales/index', ['sales' => $stmt->fetchAll(), 'status' => $status]);
+        try {
+            $stmt = Database::connection()->prepare($sql);
+            $stmt->execute($params);
+            $this->view('sales/index', ['sales' => $stmt->fetchAll(), 'status' => $status]);
+        } catch (\Throwable $e) {
+            $debug = (bool) (config('app')['debug'] ?? false);
+            set_flash('error', $debug ? ('Erro no carregamento de vendas: ' . $e->getMessage()) : 'Erro ao carregar pedidos no momento.');
+            redirect('/vendas');
+        }
     }
 
     public function create(): void

@@ -15,14 +15,17 @@ unset($_SESSION['_old']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="only light">
+    <meta name="theme-color" content="#FFFFFF">
     <title><?= e($title ?? 'Dashboard') ?> — Luxury Urban</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= url('assets/css/app.css') ?>">
+    <link rel="stylesheet" href="<?= asset('assets/css/app.css') ?>">
 </head>
 <body>
 <div class="app-shell">
     <?php require base_path('app/Views/partials/sidebar.php'); ?>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="main-area">
         <?php require base_path('app/Views/partials/header.php'); ?>
         <main class="page-content">
@@ -36,6 +39,66 @@ unset($_SESSION['_old']);
         </main>
     </div>
 </div>
-<script src="<?= url('assets/js/app.js') ?>"></script>
+<script src="<?= asset('assets/js/app.js') ?>"></script>
+<script>
+(function () {
+    var sidebar  = document.querySelector('.sidebar');
+    var overlay  = document.getElementById('sidebarOverlay');
+    var toggle   = document.getElementById('sidebarToggle');
+    if (!sidebar || !overlay || !toggle) return;
+
+    function open() {
+        sidebar.classList.add('open');
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+    function close() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+    toggle.addEventListener('click', function () {
+        sidebar.classList.contains('open') ? close() : open();
+    });
+    overlay.addEventListener('click', close);
+}());
+</script>
+<script>
+// Fallback do sistema de modais: garante `openModal()` mesmo se `app.js` não carregar.
+(function () {
+    if (typeof window.openModal === 'function' && typeof window.closeModal === 'function') return;
+
+    window.openModal = function (id) {
+        var bd = document.getElementById(id);
+        if (!bd) return;
+        bd.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        var first = bd.querySelector('input:not([type=hidden]),select,textarea');
+        if (first) setTimeout(function () { first.focus(); }, 80);
+    };
+
+    window.closeModal = function (id) {
+        var bd = document.getElementById(id);
+        if (!bd) return;
+        bd.classList.remove('open');
+        document.body.style.overflow = '';
+    };
+
+    document.addEventListener('click', function (e) {
+        if (e.target && e.target.classList && e.target.classList.contains('modal-backdrop')) {
+            e.target.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        document.querySelectorAll('.modal-backdrop.open').forEach(function (bd) {
+            bd.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+    });
+})();
+</script>
 </body>
 </html>

@@ -1,6 +1,67 @@
 (function () {
     'use strict';
 
+    /* ── Modal system ─────────────────────────────────────── */
+    window.openModal = function (id) {
+        var bd = document.getElementById(id);
+        if (!bd) return;
+        bd.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        var first = bd.querySelector('input:not([type=hidden]),select,textarea');
+        if (first) setTimeout(function () { first.focus(); }, 80);
+    };
+
+    window.closeModal = function (id) {
+        var bd = document.getElementById(id);
+        if (!bd) return;
+        bd.classList.remove('open');
+        document.body.style.overflow = '';
+    };
+
+    /* Close on backdrop click */
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('modal-backdrop')) {
+            e.target.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    });
+
+    /* Close on Escape */
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-backdrop.open').forEach(function (bd) {
+                bd.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        }
+    });
+
+    /* data-modal-open triggers */
+    document.addEventListener('click', function (e) {
+        var trigger = e.target.closest('[data-modal-open]');
+        if (!trigger) return;
+        var id = trigger.dataset.modalOpen;
+        var form = document.querySelector('#' + id + ' form');
+        if (form && trigger.dataset) {
+            /* Populate form fields from data-* attributes */
+            Object.keys(trigger.dataset).forEach(function (key) {
+                if (key === 'modalOpen') return;
+                var field = form.elements[key];
+                if (!field) return;
+                if (field.type === 'checkbox') {
+                    field.checked = trigger.dataset[key] === '1';
+                } else {
+                    field.value = trigger.dataset[key];
+                }
+            });
+            /* Set form action if provided */
+            if (trigger.dataset.action) {
+                form.action = trigger.dataset.action;
+            }
+        }
+        openModal(id);
+    });
+
     // Simple chart on dashboard
     if (typeof window.chartData !== 'undefined') {
         const canvas = document.getElementById('salesChart');
@@ -42,6 +103,7 @@
     let selectedCustomer = null;
 
     const fmt = (n) => 'R$ ' + n.toFixed(2).replace('.', ',');
+    const removeIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
     const cartBody = document.getElementById('cart-body');
     const itemsInput = document.getElementById('items_json');
     const customerInput = document.getElementById('customer_id');
@@ -56,7 +118,7 @@
                     <td>${fmt(item.unit_price)}</td>
                     <td><input type="number" min="1" max="${item.stock}" value="${item.quantity}" data-idx="${idx}" class="input qty-input" style="width:70px"></td>
                     <td>${fmt(item.unit_price * item.quantity)}</td>
-                    <td><button type="button" class="btn btn-ghost btn-sm" data-remove="${idx}">×</button></td>
+                    <td><button type="button" class="btn btn-ghost btn-sm btn-icon" data-remove="${idx}" aria-label="Remover item">${removeIcon}</button></td>
                 </tr>
             `).join('');
         }

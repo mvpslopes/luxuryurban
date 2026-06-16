@@ -62,7 +62,7 @@ class UserController extends Controller
             ]);
         } catch (\PDOException) {
             set_flash('error', 'Username já existe.');
-            redirect('/usuarios/novo');
+            redirect('/usuarios');
         }
 
         audit_log('user.created', 'user', (int) $pdo->lastInsertId());
@@ -97,7 +97,7 @@ class UserController extends Controller
         if ($password !== '') {
             if (strlen($password) < 8) {
                 set_flash('error', 'Senha deve ter no mínimo 8 caracteres.');
-                redirect("/usuarios/{$id}/editar");
+                redirect('/usuarios');
             }
             $pdo->prepare(
                 'UPDATE users SET name=?, username=?, email=?, password_hash=?, role=?, active=? WHERE id=?'

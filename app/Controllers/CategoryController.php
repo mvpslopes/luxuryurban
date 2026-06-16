@@ -43,7 +43,7 @@ class CategoryController extends Controller
             ]);
         } catch (\PDOException) {
             set_flash('error', 'Categoria já existe.');
-            redirect('/categorias/novo');
+            redirect('/categorias');
         }
 
         set_flash('success', 'Categoria criada.');
