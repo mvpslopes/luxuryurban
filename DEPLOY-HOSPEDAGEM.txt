@@ -1,26 +1,41 @@
-Luxury Urban — Pacote para hospedagem
-======================================
+Luxury Urban — Deploy Hostinger (LEIA ANTES DE SUBIR)
+====================================================
 
-1. ANTES DO UPLOAD
-   - Execute database/luxuryurban_install.sql no phpMyAdmin
+PASSO 1 — BANCO DE DADOS (phpMyAdmin)
+  Abra database/luxuryurban_install.sql e execute no banco u179630068_luxuryurban
 
-2. UPLOAD FTP
-   - Envie TODA esta pasta para o servidor
-   - Exemplo: /home/usuario/luxuryurban/
+PASSO 2 — UPLOAD FTP (IMPORTANTE)
+  Abra a pasta:  dist/public_html/
 
-3. DOCUMENT ROOT (hPanel)
-   - Aponte luxuryurban.com.br para a subpasta: public/
-   - Caminho: .../luxuryurban/public
+  Copie TUDO que esta DENTRO de public_html/ para o public_html da Hostinger.
 
-4. PERMISSOES
-   - public/uploads/produtos/ → 755 ou 775
+  Estrutura correta no servidor:
 
-5. PHP (hPanel)
-   - Versao: PHP 8.1 ou 8.2
+    public_html/
+      index.php          <-- tem que estar aqui na raiz
+      .htaccess
+      .env
+      assets/
+      uploads/
+      app/
+      config/
+      vendor/
 
-6. ACESSO
-   - https://luxuryurban.com.br/login
-   - Usuario: marcus.lopes
-   - Senha: *.Admin14!
+  ERRADO: copiar a pasta public_html inteira (ficaria public_html/public_html/)
+  ERRADO: procurar index so na raiz de dist/ (ele esta em dist/public_html/)
 
-IMPORTANTE: .env contem senhas — mantenha fora do acesso publico.
+PASSO 3 — PERMISSOES
+  public_html/uploads/produtos/  → 755 ou 775
+
+PASSO 4 — PHP (hPanel)
+  Versao PHP 8.1 ou 8.2
+
+PASSO 5 — TESTAR
+  https://luxuryurban.com.br/login
+  Usuario: marcus.lopes
+  Senha: *.Admin14!
+
+PROBLEMAS?
+  - Pagina em branco: confira se vendor/ foi enviado completo
+  - 404 nas rotas: confira se .htaccess esta na raiz do public_html
+  - Erro de banco: confira .env (DB_HOST=localhost)
