@@ -1,5 +1,6 @@
 <?php $title = 'Histórico de estoque'; ?>
 <div class="card">
+    <div class="table-wrap">
     <table class="table">
         <thead><tr><th>Data</th><th>Produto</th><th>Tipo</th><th>Qtd</th><th>Saldo</th><th>Usuário</th><th>Obs.</th></tr></thead>
         <tbody>
@@ -16,4 +17,5 @@
         <?php endforeach; ?>
         </tbody>
     </table>
+    </div>
 </div>

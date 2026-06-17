@@ -16,7 +16,7 @@
 
     <div class="topbar-actions">
         <?php if (isset($headerAction) && $headerAction): ?>
-            <?= $headerAction ?>
+            <div class="topbar-header-btns"><?= $headerAction ?></div>
         <?php endif; ?>
         <div class="user-chip">
             <span><?= e($currentUser['name'] ?? '') ?></span>

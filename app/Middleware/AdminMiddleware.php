@@ -11,8 +11,8 @@ class AdminMiddleware
     public function handle(): void
     {
         if (!Auth::isAdmin()) {
-            http_response_code(403);
-            exit('Acesso negado.');
+            set_flash('error', 'Você não tem permissão para acessar esta página.');
+            redirect(home_path());
         }
     }
 }

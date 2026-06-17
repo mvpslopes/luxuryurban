@@ -5,28 +5,38 @@
     <input type="hidden" name="customer_id" id="customer_id" value="">
 
     <div class="pdv-col">
-        <div class="card">
+        <div class="card pdv-panel">
             <h2 class="card-title">Cliente</h2>
-            <input type="text" id="customer_search" class="input" placeholder="Buscar cliente..." autocomplete="off">
-            <div id="customer_results" class="search-results"></div>
+            <input type="text" id="customer_filter" class="input" placeholder="Filtrar clientes..." autocomplete="off">
+            <div id="customer_list" class="pdv-list" role="listbox" aria-label="Lista de clientes"></div>
             <div id="selected_customer" class="selected-chip hidden"></div>
-            <a href="<?= url('/clientes/novo') ?>" class="btn btn-ghost btn-sm mt-2" target="_blank">+ Cadastrar cliente</a>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('modal-cliente-pdv')">
+                <?= icon('plus', 16) ?> Novo cliente
+            </button>
         </div>
+    </div>
 
-        <div class="card">
+    <div class="pdv-col">
+        <div class="card pdv-panel">
             <h2 class="card-title">Produtos</h2>
-            <input type="text" id="product_search" class="input" placeholder="Buscar produto ou SKU..." autocomplete="off">
-            <div id="product_results" class="search-results"></div>
+            <input type="text" id="product_filter" class="input" placeholder="Filtrar produtos ou SKU..." autocomplete="off">
+            <div id="product_list" class="pdv-list" aria-label="Lista de produtos"></div>
         </div>
     </div>
 
     <div class="pdv-col pdv-main">
         <div class="card">
             <h2 class="card-title">Carrinho</h2>
-            <table class="table" id="cart-table">
-                <thead><tr><th>Produto</th><th>Preço</th><th>Qtd</th><th>Subtotal</th><th></th></tr></thead>
-                <tbody id="cart-body"><tr class="empty-row"><td colspan="5">Nenhum item</td></tr></tbody>
-            </table>
+            <div class="table-wrap">
+                <table class="table" id="cart-table">
+                    <thead>
+                        <tr><th>Produto</th><th>Preço</th><th>Qtd</th><th>Subtotal</th><th></th></tr>
+                    </thead>
+                    <tbody id="cart-body">
+                        <tr class="empty-row"><td colspan="5">Nenhum item</td></tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="pdv-summary">
                 <div class="form-grid">
@@ -70,4 +80,52 @@
     </div>
 </form>
 
-<script>window.PDV_API = { products: '<?= url('/api/produtos') ?>', customers: '<?= url('/api/clientes') ?>' };</script>
+<!-- Modal rápido: novo cliente no PDV -->
+<div class="modal-backdrop modal-stacked" id="modal-cliente-pdv">
+    <div class="modal modal-sm">
+        <div class="modal-header">
+            <span class="modal-title">Novo cliente</span>
+            <button type="button" class="modal-close" onclick="closeModal('modal-cliente-pdv')" aria-label="Fechar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group mb-3">
+                <label for="pdv-client-name">Nome *</label>
+                <input type="text" id="pdv-client-name" class="input" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="pdv-client-document">CPF / CNPJ</label>
+                <input type="text" id="pdv-client-document" class="input">
+            </div>
+            <div class="form-group">
+                <label for="pdv-client-phone">Telefone</label>
+                <input type="text" id="pdv-client-phone" class="input">
+            </div>
+            <span class="error" id="pdv-client-error"></span>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('modal-cliente-pdv')">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="pdv-client-save">Salvar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+window.PDV_DATA = <?= json_encode([
+    'customers' => array_map(static fn ($c) => [
+        'id' => (int) $c['id'],
+        'name' => $c['name'],
+        'document' => $c['document'],
+        'phone' => $c['phone'],
+    ], $customers),
+    'products' => array_map(static fn ($p) => [
+        'id' => (int) $p['id'],
+        'name' => $p['name'],
+        'sku' => $p['sku'],
+        'price' => (float) $p['price'],
+        'stock' => (int) $p['stock'],
+    ], $products),
+    'customerApi' => url('/api/clientes'),
+], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP) ?>;
+</script>

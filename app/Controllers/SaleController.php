@@ -24,15 +24,7 @@ class SaleController extends Controller
         $status = $_GET['status'] ?? '';
         $sql = 'SELECT s.*,
                        c.name AS customer_name,
-                       u.name AS seller_name,
-                       (CASE
-                           WHEN (SELECT COUNT(*)
-                                 FROM sales s2
-                                 WHERE s2.customer_id = c.id
-                                   AND s2.id < s.id) = 0
-                           THEN \"Yes\"
-                           ELSE \"No\"
-                        END) AS new_customer
+                       u.name AS seller_name
                 FROM sales s
                 JOIN customers c ON c.id = s.customer_id
                 JOIN users u ON u.id = s.seller_id WHERE 1=1';
@@ -65,7 +57,19 @@ class SaleController extends Controller
             'SELECT * FROM payment_methods WHERE active = 1 ORDER BY sort_order, name'
         )->fetchAll();
 
-        $this->view('sales/create', compact('paymentMethods'));
+        $customers = Database::connection()->query(
+            'SELECT id, name, document, phone FROM customers ORDER BY name LIMIT 300'
+        )->fetchAll();
+
+        $products = Database::connection()->query(
+            'SELECT p.id, p.name, p.sku, p.price, COALESCE(s.quantity, 0) AS stock
+             FROM products p
+             LEFT JOIN stock s ON s.product_id = p.id
+             WHERE p.active = 1
+             ORDER BY p.name'
+        )->fetchAll();
+
+        $this->view('sales/create', compact('paymentMethods', 'customers', 'products'));
     }
 
     public function store(): void

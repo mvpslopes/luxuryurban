@@ -14,7 +14,7 @@ unset($_SESSION['_old']);
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="color-scheme" content="only light">
     <meta name="theme-color" content="#FFFFFF">
     <title><?= e($title ?? 'Dashboard') ?> — Luxury Urban</title>
@@ -47,6 +47,8 @@ unset($_SESSION['_old']);
     var toggle   = document.getElementById('sidebarToggle');
     if (!sidebar || !overlay || !toggle) return;
 
+    var mq = window.matchMedia('(max-width: 1024px)');
+
     function open() {
         sidebar.classList.add('open');
         overlay.classList.add('show');
@@ -57,10 +59,28 @@ unset($_SESSION['_old']);
         overlay.classList.remove('show');
         document.body.style.overflow = '';
     }
+    function isDrawerMode() {
+        return mq.matches;
+    }
+
     toggle.addEventListener('click', function () {
         sidebar.classList.contains('open') ? close() : open();
     });
     overlay.addEventListener('click', close);
+
+    sidebar.querySelectorAll('.nav-item').forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (isDrawerMode()) close();
+        });
+    });
+
+    mq.addEventListener('change', function () {
+        if (!isDrawerMode()) close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) close();
+    });
 }());
 </script>
 <script>
@@ -83,13 +103,6 @@ unset($_SESSION['_old']);
         bd.classList.remove('open');
         document.body.style.overflow = '';
     };
-
-    document.addEventListener('click', function (e) {
-        if (e.target && e.target.classList && e.target.classList.contains('modal-backdrop')) {
-            e.target.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-    });
 
     document.addEventListener('keydown', function (e) {
         if (e.key !== 'Escape') return;

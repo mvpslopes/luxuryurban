@@ -23,7 +23,7 @@ class Auth
             'name' => $user['name'],
             'username' => $user['username'],
             'email' => $user['email'],
-            'role' => $user['role'],
+            'role' => strtolower(trim((string) $user['role'])),
         ];
 
         audit_log('login', 'user', (int) $user['id']);
@@ -54,7 +54,8 @@ class Auth
 
     public static function role(): ?string
     {
-        return self::user()['role'] ?? null;
+        $role = self::user()['role'] ?? null;
+        return $role !== null ? strtolower(trim((string) $role)) : null;
     }
 
     public static function isRoot(): bool

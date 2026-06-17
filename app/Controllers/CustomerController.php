@@ -108,6 +108,41 @@ class CustomerController extends Controller
         $this->json($stmt->fetchAll());
     }
 
+    public function storeApi(): void
+    {
+        if (!Auth::can('customers.manage')) {
+            $this->json(['error' => 'Acesso negado.'], 403);
+        }
+
+        $this->requirePost();
+        $name = trim($_POST['name'] ?? '');
+        if ($name === '') {
+            $this->json(['error' => 'Informe o nome do cliente.'], 422);
+        }
+
+        $pdo = Database::connection();
+        try {
+            $pdo->prepare(
+                'INSERT INTO customers (name, document, email, phone, created_by) VALUES (?, ?, ?, ?, ?)'
+            )->execute([
+                $name,
+                trim($_POST['document'] ?? '') ?: null,
+                trim($_POST['email'] ?? '') ?: null,
+                trim($_POST['phone'] ?? '') ?: null,
+                Auth::id(),
+            ]);
+
+            $this->json([
+                'id' => (int) $pdo->lastInsertId(),
+                'name' => $name,
+                'document' => trim($_POST['document'] ?? '') ?: null,
+                'phone' => trim($_POST['phone'] ?? '') ?: null,
+            ]);
+        } catch (\PDOException) {
+            $this->json(['error' => 'CPF/CNPJ já cadastrado.'], 409);
+        }
+    }
+
     private function find(int $id): array
     {
         $stmt = Database::connection()->prepare('SELECT * FROM customers WHERE id = ?');

@@ -11,11 +11,12 @@
         </div>
         <div class="form-group">
             <label>Categoria *</label>
-            <select name="category_id" class="input" required>
-                <?php foreach ($categories as $c): ?>
-                    <option value="<?= $c['id'] ?>" <?= (string)old('category_id', $product['category_id'] ?? '') === (string)$c['id'] ? 'selected' : '' ?>><?= e($c['name']) ?></option>
-                <?php endforeach; ?>
-            </select>
+            <?php
+            $categorySelectId = 'product-category';
+            $modalId = 'modal-categoria-produto-form';
+            $selectedCategoryId = old('category_id', $product['category_id'] ?? '');
+            require base_path('app/Views/partials/category_quick_add.php');
+            ?>
         </div>
         <div class="form-group">
             <label>Preço de venda *</label>

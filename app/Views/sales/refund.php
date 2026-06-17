@@ -1,7 +1,8 @@
 <?php $title = 'Estornar venda ' . $sale['receipt_number']; ?>
 <div class="card form-card">
     <p>Estorno <strong>completo</strong> da venda <?= e($sale['receipt_number']) ?> — Total: <?= money((float)$sale['total']) ?></p>
-    <table class="table mb-3">
+    <div class="table-wrap mb-3">
+    <table class="table">
         <thead><tr><th>Produto</th><th>Qtd</th><th>Subtotal</th></tr></thead>
         <tbody>
         <?php foreach ($items as $item): ?>
@@ -13,6 +14,7 @@
         <?php endforeach; ?>
         </tbody>
     </table>
+    </div>
     <form method="POST" action="<?= url("/vendas/{$sale['id']}/estornar") ?>">
         <?= csrf_field() ?>
         <div class="form-group">

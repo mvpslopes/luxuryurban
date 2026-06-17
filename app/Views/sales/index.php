@@ -1,32 +1,25 @@
 <?php
-$title = 'Orders';
+$title = 'Vendas';
 
-$headerAction = '';
-$headerAction .= '<a href="' . url('/dashboard') . '" class="btn btn-ghost btn-sm">Order Statistics</a> ';
-$headerAction .= '<a href="' . url('/clientes/novo') . '" class="btn btn-primary">New Customer</a>';
+$headerAction = '<a href="' . url('/vendas/nova') . '" class="btn btn-primary">Nova venda</a>';
 ?>
 
 <div class="card">
     <div class="table-toolbar">
-        <h2>Orders</h2>
-        <div class="toolbar-actions">
-            <a href="<?= url('/dashboard') ?>" class="btn btn-ghost btn-sm">Help</a>
-        </div>
+        <h2>Vendas</h2>
     </div>
 
     <form method="GET" class="table-filters">
         <div class="filters-left">
-            <select name="status" class="input" style="max-width: 280px;">
-                <option value="">All status</option>
-                <option value="concluida" <?= $status === 'concluida' ? 'selected' : '' ?>>Paid</option>
-                <option value="pendente_aprovacao" <?= $status === 'pendente_aprovacao' ? 'selected' : '' ?>>Processing</option>
-                <option value="estornada" <?= $status === 'estornada' ? 'selected' : '' ?>>Unpaid</option>
+            <select name="status" class="input filter-select">
+                <option value="">Todos os status</option>
+                <option value="concluida" <?= $status === 'concluida' ? 'selected' : '' ?>>Concluída</option>
+                <option value="pendente_aprovacao" <?= $status === 'pendente_aprovacao' ? 'selected' : '' ?>>Pendente</option>
+                <option value="estornada" <?= $status === 'estornada' ? 'selected' : '' ?>>Estornada</option>
             </select>
         </div>
         <div class="filters-right">
-            <input type="text" class="input" placeholder="Search..." style="max-width: 240px;">
-            <button type="button" class="btn btn-secondary btn-sm" disabled>Export table</button>
-            <button type="submit" class="btn btn-secondary btn-sm">Apply</button>
+            <button type="submit" class="btn btn-secondary btn-sm">Filtrar</button>
         </div>
     </form>
 
@@ -34,23 +27,22 @@ $headerAction .= '<a href="' . url('/clientes/novo') . '" class="btn btn-primary
         <table class="table">
             <thead>
             <tr>
-                <th style="width: 48px;"><input type="checkbox" class="table-checkbox" aria-label="Selecionar tudo"></th>
-                <th>ID</th>
-                <th>Reference</th>
-                <th>New customer?</th>
-                <th>Price</th>
-                <th>Payment</th>
+                <th>Recibo</th>
+                <th>Cliente</th>
+                <th>Vendedor</th>
+                <th>Total</th>
+                <th>Pagamento</th>
                 <th>Status</th>
-                <th style="width: 48px;"></th>
+                <th>Data</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($sales as $s): ?>
                 <tr>
-                    <td><input type="checkbox" class="table-checkbox" aria-label="Selecionar"></td>
                     <td><?= e($s['receipt_number']) ?></td>
-                    <td><?= e($s['receipt_number']) ?></td>
-                    <td><?= e($s['new_customer'] ?? 'No') ?></td>
+                    <td><?= e($s['customer_name']) ?></td>
+                    <td><?= e($s['seller_name']) ?></td>
                     <td><?= money((float) $s['total']) ?></td>
                     <td><?= e($s['payment_method_name']) ?></td>
                     <td>
@@ -58,10 +50,9 @@ $headerAction .= '<a href="' . url('/clientes/novo') . '" class="btn btn-primary
                             <?= sale_status_label($s['status']) ?>
                         </span>
                     </td>
+                    <td><?= format_date($s['created_at']) ?></td>
                     <td>
-                        <a href="<?= url("/vendas/{$s['id']}") ?>" class="btn btn-ghost btn-sm btn-icon" aria-label="Options">
-                            <?= icon('more-vertical', 20) ?>
-                        </a>
+                        <a href="<?= url("/vendas/{$s['id']}") ?>" class="btn btn-ghost btn-sm">Ver</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

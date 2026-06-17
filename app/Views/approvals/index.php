@@ -3,6 +3,7 @@
     <?php if (empty($pending)): ?>
         <p class="text-muted">Nenhuma aprovação pendente.</p>
     <?php else: ?>
+    <div class="table-wrap">
     <table class="table">
         <thead><tr><th>Recibo</th><th>Cliente</th><th>Vendedor</th><th>Desconto</th><th>Total</th><th>Data</th><th>Ações</th></tr></thead>
         <tbody>
@@ -29,5 +30,6 @@
         <?php endforeach; ?>
         </tbody>
     </table>
+    </div>
     <?php endif; ?>
 </div>

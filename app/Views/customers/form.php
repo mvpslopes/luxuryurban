@@ -22,6 +22,7 @@
 <?php if (!empty($sales)): ?>
 <div class="card mt-3">
     <h2 class="card-title">Histórico de compras</h2>
+    <div class="table-wrap">
     <table class="table">
         <thead><tr><th>Recibo</th><th>Total</th><th>Status</th><th>Data</th></tr></thead>
         <tbody>
@@ -35,5 +36,6 @@
         <?php endforeach; ?>
         </tbody>
     </table>
+    </div>
 </div>
 <?php endif; ?>

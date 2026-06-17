@@ -32,17 +32,19 @@ $headerAction = $actions;
 </div>
 <div class="card mt-3">
     <h2 class="card-title">Itens</h2>
-    <table class="table">
-        <thead><tr><th>Produto</th><th>Qtd</th><th>Preço unit.</th><th>Subtotal</th></tr></thead>
-        <tbody>
-        <?php foreach ($items as $item): ?>
-            <tr>
-                <td><?= e($item['product_name']) ?></td>
-                <td><?= (int)$item['quantity'] ?></td>
-                <td><?= money((float)$item['unit_price']) ?></td>
-                <td><?= money((float)$item['subtotal']) ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+    <div class="table-wrap">
+        <table class="table">
+            <thead><tr><th>Produto</th><th>Qtd</th><th>Preço unit.</th><th>Subtotal</th></tr></thead>
+            <tbody>
+            <?php foreach ($items as $item): ?>
+                <tr>
+                    <td><?= e($item['product_name']) ?></td>
+                    <td><?= (int)$item['quantity'] ?></td>
+                    <td><?= money((float)$item['unit_price']) ?></td>
+                    <td><?= money((float)$item['subtotal']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>

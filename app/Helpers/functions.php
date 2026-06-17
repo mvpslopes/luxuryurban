@@ -60,6 +60,11 @@ function asset(string $path): string
     return url($path) . '?v=' . $version;
 }
 
+function home_path(): string
+{
+    return \App\Core\Auth::isVendedor() ? '/vendas/nova' : '/dashboard';
+}
+
 function redirect(string $path): never
 {
     header('Location: ' . url($path));
@@ -136,9 +141,9 @@ function role_label(string $role): string
 function sale_status_label(string $status): string
 {
     return match ($status) {
-        'concluida' => 'Paid',
-        'pendente_aprovacao' => 'Processing',
-        'estornada' => 'Unpaid',
+        'concluida' => 'Concluída',
+        'pendente_aprovacao' => 'Pendente',
+        'estornada' => 'Estornada',
         default => $status,
     };
 }

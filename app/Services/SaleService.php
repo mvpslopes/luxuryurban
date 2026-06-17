@@ -20,8 +20,12 @@ class SaleService
     {
         $pdo = Database::connection();
         $year = (int) date('Y');
+        $ownTransaction = !$pdo->inTransaction();
 
-        $pdo->beginTransaction();
+        if ($ownTransaction) {
+            $pdo->beginTransaction();
+        }
+
         try {
             $stmt = $pdo->prepare('SELECT last_number FROM receipt_sequences WHERE year = ? FOR UPDATE');
             $stmt->execute([$year]);
@@ -35,11 +39,16 @@ class SaleService
             }
 
             $pdo->prepare('UPDATE receipt_sequences SET last_number = ? WHERE year = ?')->execute([$next, $year]);
-            $pdo->commit();
+
+            if ($ownTransaction) {
+                $pdo->commit();
+            }
 
             return sprintf('LU-%d-%05d', $year, $next);
         } catch (\Throwable $e) {
-            $pdo->rollBack();
+            if ($ownTransaction && $pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
             throw $e;
         }
     }

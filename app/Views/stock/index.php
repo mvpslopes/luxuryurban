@@ -5,6 +5,7 @@ if (\App\Core\Auth::can('stock.manage')) {
 }
 ?>
 <div class="card">
+    <div class="table-wrap">
     <table class="table">
         <thead><tr><th>SKU</th><th>Produto</th><th>Categoria</th><th>Quantidade</th><th>Mínimo</th></tr></thead>
         <tbody>
@@ -25,4 +26,5 @@ if (\App\Core\Auth::can('stock.manage')) {
         <?php endforeach; ?>
         </tbody>
     </table>
+    </div>
 </div>

@@ -11,7 +11,7 @@ class GuestMiddleware
     public function handle(): void
     {
         if (Auth::check()) {
-            redirect('/dashboard');
+            redirect(home_path());
         }
     }
 }

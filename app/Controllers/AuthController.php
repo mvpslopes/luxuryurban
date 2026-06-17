@@ -31,7 +31,12 @@ class AuthController extends Controller
             redirect('/login');
         }
 
-        redirect('/dashboard');
+        redirect(home_path());
+    }
+
+    public function home(): void
+    {
+        redirect(home_path());
     }
 
     public function logout(): void

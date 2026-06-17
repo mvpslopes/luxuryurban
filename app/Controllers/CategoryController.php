@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Database;
 
@@ -48,6 +49,33 @@ class CategoryController extends Controller
 
         set_flash('success', 'Categoria criada.');
         redirect('/categorias');
+    }
+
+    public function storeApi(): void
+    {
+        if (!Auth::can('categories.manage')) {
+            $this->json(['error' => 'Acesso negado.'], 403);
+        }
+
+        $this->requirePost();
+        $name = trim($_POST['name'] ?? '');
+        if ($name === '') {
+            $this->json(['error' => 'Informe o nome da categoria.'], 422);
+        }
+
+        $pdo = Database::connection();
+        try {
+            $pdo->prepare(
+                'INSERT INTO product_categories (name, active, sort_order) VALUES (?, 1, 0)'
+            )->execute([$name]);
+
+            $this->json([
+                'id' => (int) $pdo->lastInsertId(),
+                'name' => $name,
+            ]);
+        } catch (\PDOException) {
+            $this->json(['error' => 'Categoria já existe.'], 409);
+        }
     }
 
     public function edit(string $id): void

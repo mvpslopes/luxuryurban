@@ -87,15 +87,11 @@ if ($canManage) {
                     </div>
                     <div class="form-group">
                         <label for="prod-category">Categoria *</label>
-                        <select id="prod-category" name="category_id" class="input" required>
-                            <option value="">Selecione...</option>
-                            <?php foreach ($categories as $c): ?>
-                                <?php if (!$c['active']) continue; ?>
-                                <option value="<?= $c['id'] ?>" <?= (string)old('category_id') === (string)$c['id'] ? 'selected' : '' ?>>
-                                    <?= e($c['name']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <?php
+                        $categorySelectId = 'prod-category';
+                        $selectedCategoryId = old('category_id');
+                        require base_path('app/Views/partials/category_quick_add.php');
+                        ?>
                         <?php if (!empty($_SESSION['_errors']['category_id'] ?? '')): ?>
                             <span class="error"><?= e($_SESSION['_errors']['category_id']) ?></span>
                         <?php endif; ?>

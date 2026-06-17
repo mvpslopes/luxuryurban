@@ -44,7 +44,7 @@ abstract class Controller
     {
         $_SESSION['_errors'] = $errors;
         $_SESSION['_old'] = $old ?: $_POST;
-        header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? url('/dashboard')));
+        header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? url(home_path())));
         exit;
     }
 

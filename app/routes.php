@@ -32,8 +32,8 @@ $router->get('/login', [AuthController::class, 'showLogin'], $guest);
 $router->post('/login', [AuthController::class, 'login'], $guest);
 $router->get('/logout', [AuthController::class, 'logout'], $auth);
 
-$router->get('/', [DashboardController::class, 'index'], $auth);
-$router->get('/dashboard', [DashboardController::class, 'index'], $auth);
+$router->get('/', [AuthController::class, 'home'], $auth);
+$router->get('/dashboard', [DashboardController::class, 'index'], $admin);
 
 $router->get('/usuarios', [UserController::class, 'index'], $root);
 $router->get('/usuarios/novo', [UserController::class, 'create'], $root);
@@ -46,6 +46,7 @@ $router->get('/categorias/novo', [CategoryController::class, 'create'], $admin);
 $router->post('/categorias', [CategoryController::class, 'store'], $admin);
 $router->get('/categorias/{id}/editar', [CategoryController::class, 'edit'], $admin);
 $router->post('/categorias/{id}', [CategoryController::class, 'update'], $admin);
+$router->post('/api/categorias', [CategoryController::class, 'storeApi'], $admin);
 
 $router->get('/formas-pagamento', [PaymentMethodController::class, 'index'], $admin);
 $router->get('/formas-pagamento/novo', [PaymentMethodController::class, 'create'], $admin);
@@ -60,7 +61,7 @@ $router->get('/produtos/{id}/editar', [ProductController::class, 'edit'], $admin
 $router->post('/produtos/{id}', [ProductController::class, 'update'], $admin);
 $router->get('/api/produtos', [ProductController::class, 'searchApi'], $sales);
 
-$router->get('/estoque', [StockController::class, 'index'], $auth);
+$router->get('/estoque', [StockController::class, 'index'], $admin);
 $router->get('/estoque/movimentacao', [StockController::class, 'movement'], $admin);
 $router->post('/estoque/movimentacao', [StockController::class, 'storeMovement'], $admin);
 $router->get('/estoque/historico', [StockController::class, 'history'], $admin);
@@ -71,6 +72,7 @@ $router->post('/clientes', [CustomerController::class, 'store'], $sales);
 $router->get('/clientes/{id}/editar', [CustomerController::class, 'edit'], $sales);
 $router->post('/clientes/{id}', [CustomerController::class, 'update'], $sales);
 $router->get('/api/clientes', [CustomerController::class, 'searchApi'], $sales);
+$router->post('/api/clientes', [CustomerController::class, 'storeApi'], $sales);
 
 $router->get('/vendas', [SaleController::class, 'index'], $auth);
 $router->get('/vendas/nova', [SaleController::class, 'create'], $sales);
