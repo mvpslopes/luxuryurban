@@ -1,6 +1,6 @@
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-        <span class="brand-icon">LU</span>
+        <img src="<?= asset('logo/logo_icone.png') ?>" alt="" class="brand-logo brand-logo--icon" width="40" height="40">
         <span class="brand-text">Luxury Urban</span>
     </div>
     <nav class="sidebar-nav">

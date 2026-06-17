@@ -123,15 +123,19 @@
             const max = Math.max(...values, 1);
             const pad = 30;
 
-            ctx.strokeStyle = '#2D2D2D';
+            ctx.strokeStyle = 'rgba(255,255,255,0.12)';
             ctx.beginPath();
             ctx.moveTo(pad, h - pad);
             ctx.lineTo(w - pad, h - pad);
             ctx.stroke();
 
             if (keys.length > 0) {
-                ctx.strokeStyle = '#3B82F6';
-                ctx.lineWidth = 2;
+                const grad = ctx.createLinearGradient(pad, 0, w - pad, 0);
+                grad.addColorStop(0, '#9a7b2c');
+                grad.addColorStop(0.5, '#d4af37');
+                grad.addColorStop(1, '#f9e498');
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2.5;
                 ctx.beginPath();
                 keys.forEach((k, i) => {
                     const x = pad + (i / Math.max(keys.length - 1, 1)) * (w - pad * 2);
@@ -139,6 +143,15 @@
                     i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
                 });
                 ctx.stroke();
+
+                ctx.fillStyle = grad;
+                keys.forEach((k, i) => {
+                    const x = pad + (i / Math.max(keys.length - 1, 1)) * (w - pad * 2);
+                    const y = h - pad - (values[i] / max) * (h - pad * 2);
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                });
             }
         }
     }

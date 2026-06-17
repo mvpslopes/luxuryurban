@@ -23,6 +23,7 @@ Copy-Item (Join-Path $root "deploy\hostinger\.htaccess") (Join-Path $publicHtml 
 
 # Assets e uploads publicos
 Copy-Item (Join-Path $root "public\assets") (Join-Path $publicHtml "assets") -Recurse -Force
+Copy-Item (Join-Path $root "public\logo") (Join-Path $publicHtml "logo") -Recurse -Force
 $uploads = Join-Path $publicHtml "uploads\produtos"
 New-Item -ItemType Directory -Path $uploads -Force | Out-Null
 New-Item -ItemType File -Path (Join-Path $uploads ".gitkeep") -Force | Out-Null

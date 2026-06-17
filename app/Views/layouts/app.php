@@ -15,14 +15,16 @@ unset($_SESSION['_old']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="color-scheme" content="only light">
-    <meta name="theme-color" content="#FFFFFF">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#000000">
     <title><?= e($title ?? 'Dashboard') ?> — Luxury Urban</title>
+    <link rel="icon" type="image/png" href="<?= asset('logo/logo_icone.png') ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('assets/css/app.css') ?>">
 </head>
 <body>
+<?php require base_path('app/Views/partials/splash.php'); ?>
 <div class="app-shell">
     <?php require base_path('app/Views/partials/sidebar.php'); ?>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
