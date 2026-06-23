@@ -684,6 +684,84 @@ textarea.input { resize: vertical; min-height: 80px; }
   border: 1px solid rgba(239, 68, 68, 0.35);
 }
 
+/* ── Login loading ── */
+.auth-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+.auth-loading.hidden { display: none; }
+.auth-loading__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(212, 175, 55, 0.22) 0%, transparent 42%),
+    radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 35%),
+    linear-gradient(165deg, #000 0%, #0d0d0d 45%, #050505 100%);
+}
+.auth-loading__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+}
+.auth-loading__logo {
+  width: min(300px, 78vw);
+  height: auto;
+  filter: drop-shadow(0 8px 32px rgba(212, 175, 55, 0.25));
+  animation: splashLogoIn .6s cubic-bezier(.22, 1, .36, 1) both;
+}
+.auth-loading__text {
+  margin-top: 28px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  animation: splashLogoIn .5s ease .25s both;
+}
+.auth-form .btn-submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* ── Barra de progresso (login) ── */
+.luxury-progress {
+  width: min(280px, 78vw);
+  margin-top: 28px;
+  animation: splashLogoIn .5s ease .35s both;
+}
+.luxury-progress__track {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+}
+.luxury-progress__fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent-gradient);
+  border-radius: 999px;
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
+  transition: width .1s ease-out;
+}
+.luxury-progress__label {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+
 /* ── Detail view ── */
 .detail-list { display: grid; grid-template-columns: 140px 1fr; gap: 8px 16px; align-items: baseline; }
 .detail-list dt { color: var(--text-secondary); font-size: 13px; }

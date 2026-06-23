@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="color-scheme" content="dark">
     <meta name="theme-color" content="#000000">
-    <title>Login — Luxury Urban</title>
+    <title>Login | Luxury Urban</title>
     <link rel="icon" type="image/png" href="<?= asset('logo/logo_icone.png') ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('assets/css/app.css') ?>">
+    <script src="<?= asset('assets/js/luxury-progress.js') ?>"></script>
 </head>
 <body class="auth-page">
     <?php require base_path('app/Views/partials/splash.php'); ?>
+    <?php require base_path('app/Views/partials/auth_loading.php'); ?>
 
     <div class="auth-wrap">
         <div class="auth-card">

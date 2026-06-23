@@ -11,7 +11,6 @@
     <div class="app-splash__bg" aria-hidden="true"></div>
     <div class="app-splash__content">
         <img src="<?= asset('logo/logo.png') ?>" alt="Luxury Urban" class="app-splash__logo">
-        <div class="app-splash__bar" aria-hidden="true"></div>
     </div>
 </div>
 <script>
@@ -27,7 +26,7 @@
         }
     } catch (e) {}
 
-    var minMs = 1400;
+    var minMs = 1200;
     var start = Date.now();
 
     function hide() {
